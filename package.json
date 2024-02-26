@@ -19,6 +19,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "discord.js": "^14.14.1"
+    "discord.js": "^14.14.1",
+    "zod": "^3.22.4"
   }
 }
