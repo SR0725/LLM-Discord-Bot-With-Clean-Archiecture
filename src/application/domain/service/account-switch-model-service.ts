@@ -1,13 +1,14 @@
 import { type AccountSwitchModelUseCaseConstructor } from "@/application/port/in/account-switch-model-use-case";
+import { Account, createEmptyAccount } from "../model/account";
 
 const AccountSwitchModelUseCaseConstructor: AccountSwitchModelUseCaseConstructor =
-  (createAccount, loadAccount, updateAccount) => async (accountId, model) => {
-    const account = await loadAccount(accountId);
-    if (!account) {
-      const newAccount = await createAccount(accountId);
-    }
+  (loadAccount, saveAccount) => async (discordAccount, model) => {
+    const account: Account = (await loadAccount(discordAccount.accountId)) ?? {
+      ...createEmptyAccount(discordAccount.accountId, discordAccount.username),
+    };
+
     const updatedAccount = { ...account, usedModel: model };
-    await updateAccount(updatedAccount);
+    await saveAccount(updatedAccount);
     return updatedAccount;
   };
 

@@ -1,21 +1,23 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2016",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "module": "commonjs",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "incremental": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowImportingTsExtensions": true,
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["src/**/*.ts", "test/**/*.ts"],
   "exclude": ["node_modules"]
 }

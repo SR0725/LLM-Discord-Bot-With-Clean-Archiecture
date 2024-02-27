@@ -1,16 +1,15 @@
 import { type Account } from "@/application/domain/model/account";
 import { type LoadAccountPort } from "../out/load-account-port";
-import { type UpdateAccountPort } from "../out/update-account-port";
-import { type CreateAccountPort } from "../out/create-account-port";
+import { type SaveAccountPort } from "../out/save-account-port";
+import { DiscordAccount } from "./discord-account";
 
 export interface AccountSwitchModelUseCaseConstructor {
   (
-    createAccount: CreateAccountPort,
     loadAccount: LoadAccountPort,
-    updateAccount: UpdateAccountPort
+    saveAccount: SaveAccountPort
   ): AccountSwitchModelUseCase;
 }
 
 export interface AccountSwitchModelUseCase {
-  (accountId: string, model: string): Promise<Account>;
+  (discordAccount: DiscordAccount, model: string): Promise<Account>;
 }
