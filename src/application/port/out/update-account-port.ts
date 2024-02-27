@@ -1,5 +1,3 @@
-import { Account } from "@/application/domain/model/account";
+import { type Account } from "@/application/domain/model/account";
 
-export interface UpdateAccountPort {
-  updateAccount(account: Account): Promise<void>;
-}
+export type UpdateAccountPort = (account: Account) => Promise<void>

@@ -1,5 +1,3 @@
-import { Account } from "@/application/domain/model/account";
+import { type Account } from "@/application/domain/model/account";
 
-export interface LoadAccountPort {
-  loadAccount(accountId: string): Promise<Account>;
-}
+export type LoadAccountPort = (accountId: string) => Promise<Account>;
