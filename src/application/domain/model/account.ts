@@ -1,4 +1,5 @@
-import { type ChatThread } from "./chat-history";
+import { type ChatThread } from "./chat";
+import { LLMModel } from "../../port/in/llm-model";
 
 export interface Account {
   accountId: string;
@@ -18,7 +19,7 @@ export const createEmptyAccount = (
 ): Account => ({
   accountId,
   username,
-  usedModel: "",
+  usedModel: LLMModel.GPT3,
   prompt: "",
   memoryLength: 20,
   currentMonthExpense: 0,

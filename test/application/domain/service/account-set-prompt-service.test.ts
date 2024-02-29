@@ -1,6 +1,7 @@
 import AccountSetPromptUseCaseConstructor from "@/application/domain/service/account-set-prompt-service";
 import { type AccountSetPromptUseCase } from "@/application/port/in/account-set-prompt-use-case";
 import type { Account } from "@/application/domain/model/account";
+import { LLMModel } from "@/application/port/in/llm-model";
 
 describe("When account set prompt", () => {
   const mockLoadAccount = jest.fn();
@@ -14,7 +15,7 @@ describe("When account set prompt", () => {
     const existingAccount: Account = {
       accountId: "123",
       username: "testUser",
-      usedModel: "gpt-3.5",
+      usedModel: LLMModel.GPT3,
       prompt: "無",
       memoryLength: 20,
       currentMonthExpense: 0,

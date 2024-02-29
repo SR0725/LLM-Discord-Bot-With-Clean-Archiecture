@@ -1,6 +1,7 @@
 import AccountSwitchModelUseCaseConstructor from "@/application/domain/service/account-switch-model-service";
 import { type AccountSwitchModelUseCase } from "@/application/port/in/account-switch-model-use-case";
 import type { Account } from "@/application/domain/model/account";
+import { LLMModel } from "@/application/port/in/llm-model";
 
 describe("When account switch model use case", () => {
   const mockLoadAccount = jest.fn();
@@ -14,7 +15,7 @@ describe("When account switch model use case", () => {
     const existingAccount: Account = {
       accountId: "123",
       username: "testUser",
-      usedModel: "oldModel",
+      usedModel: LLMModel.GPT3,
       prompt: "",
       memoryLength: 20,
       currentMonthExpense: 0,
@@ -25,6 +26,7 @@ describe("When account switch model use case", () => {
 
     it("Then updates model", async () => {
       mockLoadAccount.mockResolvedValue(existingAccount);
+      const newModel = LLMModel.GPT4;
       const useCase: AccountSwitchModelUseCase = AccountSwitchModelUseCaseConstructor(
         mockLoadAccount,
         mockSaveAccount
@@ -32,14 +34,14 @@ describe("When account switch model use case", () => {
 
       const updatedAccount = await useCase(
         { accountId: "123", username: "testUser" },
-        "newModel"
+        newModel
       );
 
       expect(mockSaveAccount).toHaveBeenCalledWith({
         ...existingAccount,
-        usedModel: "newModel",
+        usedModel: newModel,
       });
-      expect(updatedAccount.usedModel).toEqual("newModel");
+      expect(updatedAccount.usedModel).toEqual(newModel);
     });
   });
 
@@ -54,7 +56,7 @@ describe("When account switch model use case", () => {
 
       const newAccountId = "456";
       const newUsername = "newUser";
-      const newModel = "newModel";
+      const newModel = LLMModel.GPT4;
       const newAccount = await useCase(
         { accountId: newAccountId, username: newUsername },
         newModel

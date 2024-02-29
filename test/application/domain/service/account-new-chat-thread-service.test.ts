@@ -1,7 +1,8 @@
 import AccountNewChatThreadUseCaseConstructor from "@/application/domain/service/account-new-chat-thread-service";
 import { type AccountNewChatThreadUseCase } from "@/application/port/in/account-new-chat-thread-use-case";
 import type { Account } from "@/application/domain/model/account";
-import { Role } from "@/application/domain/model/chat-history";
+import { Role } from "@/application/domain/model/chat";
+import { LLMModel } from "@/application/port/in/llm-model";
 
 describe("When account renew a chat thread", () => {
   const mockLoadAccount = jest.fn();
@@ -13,11 +14,11 @@ describe("When account renew a chat thread", () => {
 
   describe("Given existing account with existing thread", () => {
     const accountId = "123";
-    const currentThreadId = "2ktof92";
+    const currentThreadId = "3495739284";
     const existingAccount: Account = {
       accountId,
       username: "testUser",
-      usedModel: "gpt-3.5",
+      usedModel: LLMModel.GPT3,
       prompt: "無",
       memoryLength: 20,
       currentMonthExpense: 0,
@@ -26,7 +27,7 @@ describe("When account renew a chat thread", () => {
       chatThreads: [{
         accountId,
         threadId: currentThreadId,
-        useModel: "gpt-3.5",
+        useModel: LLMModel.GPT3,
         prompt: "無",
         memoryLength: 20,
         chatHistories: [{
@@ -80,7 +81,7 @@ describe("When account renew a chat thread", () => {
     const existingAccount: Account = {
       accountId,
       username: "testUser",
-      usedModel: "gpt-3.5",
+      usedModel: LLMModel.GPT3,
       prompt: "無",
       memoryLength: 20,
       currentMonthExpense: 0,

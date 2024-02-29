@@ -1,7 +1,7 @@
 import { type AccountNewChatThreadUseCaseConstructor } from "@/application/port/in/account-new-chat-thread-use-case";
 import type { Account } from "../model/account";
 import { createEmptyAccount } from "../model/account";
-import type { ChatThread } from "../model/chat-history";
+import type { ChatThread } from "../model/chat";
 import uuid from "@/common/uuid";
 
 const AccountNewChatThreadUseCaseConstructor: AccountNewChatThreadUseCaseConstructor =
