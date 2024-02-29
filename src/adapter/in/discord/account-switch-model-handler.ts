@@ -2,15 +2,23 @@ import { type InterfaceCommandHandlerConstructor } from "@/application/port/in/i
 import { type AccountSwitchModelUseCase } from "@/application/port/in/account-switch-model-use-case";
 import { SlashCommandBuilder } from "discord.js";
 import z from "zod";
+import { LLMModel } from "@/application/port/in/llm-model";
 
-const commandName = "account-switch";
+const commandName = "model-switch";
 
 const AccountSwitchModelHandlerConstructor: InterfaceCommandHandlerConstructor<
   AccountSwitchModelUseCase
 > = (switchAccountModel) => ({
   slashCommand: new SlashCommandBuilder()
     .addStringOption((option) =>
-      option.setName("model").setDescription("模型名稱").setRequired(true)
+      option
+        .setName("model")
+        .setDescription("模型名稱")
+        .setRequired(true)
+        .addChoices({
+          name: LLMModel.GPT3,
+          value: LLMModel.GPT3,
+        })
     )
     .setName(commandName)
     .setDescription("模型切換：用戶可以透過指令輕鬆切換當前互動的 AI 模型。"),

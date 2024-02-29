@@ -4,7 +4,7 @@ import {
 } from "discord.js";
 
 export interface InterfaceCommandHandlerConstructor<T> {
-  (useCase: T): InterfaceCommandHandler;
+  (...useCase: T[]): InterfaceCommandHandler;
 }
 
 export interface InterfaceCommandHandler {

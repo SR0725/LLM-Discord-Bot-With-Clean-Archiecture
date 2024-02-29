@@ -22,7 +22,6 @@ const AccountSetPromptHandlerConstructor: InterfaceCommandHandlerConstructor<
 
     try {
       const prompt = z.string().parse(interaction.options.getString("prompt"));
-      console.log(prompt);
 
       const result = await setAccountPrompt(
         {
