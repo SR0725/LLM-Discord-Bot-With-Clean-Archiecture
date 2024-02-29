@@ -1,8 +1,8 @@
-import AccountSwitchModelUseCaseConstructor from "@/application/domain/service/account-switch-model-service";
-import { type AccountSwitchModelUseCase } from "@/application/port/in/account-switch-model-use-case";
+import AccountSetPromptUseCaseConstructor from "@/application/domain/service/account-set-prompt-service";
+import { type AccountSetPromptUseCase } from "@/application/port/in/account-set-prompt-use-case";
 import type { Account } from "@/application/domain/model/account";
 
-describe("When account switch model use case", () => {
+describe("When account set prompt", () => {
   const mockLoadAccount = jest.fn();
   const mockSaveAccount = jest.fn();
 
@@ -14,8 +14,8 @@ describe("When account switch model use case", () => {
     const existingAccount: Account = {
       accountId: "123",
       username: "testUser",
-      usedModel: "oldModel",
-      prompt: "",
+      usedModel: "gpt-3.5",
+      prompt: "無",
       memoryLength: 20,
       currentMonthExpense: 0,
       maxMonthlyExpense: 0,
@@ -24,21 +24,21 @@ describe("When account switch model use case", () => {
 
     it("Then updates model", async () => {
       mockLoadAccount.mockResolvedValue(existingAccount);
-      const useCase: AccountSwitchModelUseCase = AccountSwitchModelUseCaseConstructor(
+      const useCase: AccountSetPromptUseCase = AccountSetPromptUseCaseConstructor(
         mockLoadAccount,
         mockSaveAccount
       );
-
+      const newPrompt = "貓咪";
       const updatedAccount = await useCase(
         { accountId: "123", username: "testUser" },
-        "newModel"
+        newPrompt
       );
 
       expect(mockSaveAccount).toHaveBeenCalledWith({
         ...existingAccount,
-        usedModel: "newModel",
+        prompt: newPrompt,
       });
-      expect(updatedAccount.usedModel).toEqual("newModel");
+      expect(updatedAccount.prompt).toEqual(newPrompt);
     });
   });
 
@@ -46,31 +46,31 @@ describe("When account switch model use case", () => {
 
     it("Then create model", async () => {
       mockLoadAccount.mockResolvedValue(null);
-      const useCase: AccountSwitchModelUseCase = AccountSwitchModelUseCaseConstructor(
+      const useCase: AccountSetPromptUseCase = AccountSetPromptUseCaseConstructor(
         mockLoadAccount,
         mockSaveAccount
       );
 
       const newAccountId = "456";
       const newUsername = "newUser";
-      const newModel = "newModel";
+      const prompt = "狗勾";
       const newAccount = await useCase(
         { accountId: newAccountId, username: newUsername },
-        newModel
+        prompt
       );
 
       expect(mockSaveAccount).toHaveBeenCalledWith(
         expect.objectContaining({
           accountId: newAccountId,
           username: newUsername,
-          usedModel: newModel,
+          prompt: prompt,
         })
       );
       expect(newAccount).toEqual(
         expect.objectContaining({
           accountId: newAccountId,
           username: newUsername,
-          usedModel: newModel,
+          prompt: prompt,
         })
       );
     });

@@ -4,10 +4,10 @@ import {
 } from "discord.js";
 
 export interface InterfaceCommandHandlerConstructor<T> {
-  (useCase: T): InterfaceCommandHandler<T>;
+  (useCase: T): InterfaceCommandHandler;
 }
 
-export interface InterfaceCommandHandler<T> {
+export interface InterfaceCommandHandler {
   handle: (interaction: ChatInputCommandInteraction) => Promise<void>;
   slashCommand: SlashCommandBuilder;
 }

@@ -4,6 +4,7 @@ import { type SaveAccountPort } from "@/application/port/out/save-account-port";
 import AccountPersistenceSaveAdapter from "@/adapter/out/persistence/account-persistence-save-adapter";
 import AccountPersistenceLoadAdapter from "@/adapter/out/persistence/account-persistence-load-adapter";
 import AccountSwitchModelServiceConstructor from "@/application/domain/service/account-switch-model-service";
+import AccountSetPromptServiceConstructor from "@/application/domain/service/account-set-prompt-service";
 import SetupDiscordCommandHandlers from "@/adapter/in/discord/setup-discord-command-handlers";
 
 // 初始化持久層
@@ -13,6 +14,7 @@ const saveAccount: SaveAccountPort = AccountPersistenceSaveAdapter;
 // 初始化服務
 const accountSwitchModelUseCase: AccountSwitchModelUseCase =
   AccountSwitchModelServiceConstructor(loadAccount, saveAccount);
+const accountSetPromptUseCase = AccountSetPromptServiceConstructor(loadAccount, saveAccount);
 
 // 初始化 Discord 指令處理器
 const discordBotToken = process.env.DISCORD_BOT_TOKEN ?? "";
@@ -23,7 +25,13 @@ const discordBotClientId = process.env.DISCORD_BOT_CLIENT_ID ?? "";
 if (!discordBotClientId) {
   throw new Error("Discord bot client id is required!");
 }
+const discordGuildId = process.env.DISCORD_GUILD_ID ?? "";
+if (!discordGuildId) {
+  throw new Error("Discord guild id is required!");
 
-SetupDiscordCommandHandlers(discordBotToken, discordBotClientId, {
+}
+
+SetupDiscordCommandHandlers(discordBotToken, discordBotClientId, discordGuildId, {
   accountSwitchModelUseCase,
+  accountSetPromptUseCase,
 });

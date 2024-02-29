@@ -3,13 +3,13 @@ import { type LoadAccountPort } from "../out/load-account-port";
 import { type SaveAccountPort } from "../out/save-account-port";
 import type { DiscordAccount } from "./discord-account";
 
-export interface AccountSwitchModelUseCaseConstructor {
+export interface AccountSetPromptUseCaseConstructor {
   (
     loadAccount: LoadAccountPort,
     saveAccount: SaveAccountPort
-  ): AccountSwitchModelUseCase;
+  ): AccountSetPromptUseCase;
 }
 
-export interface AccountSwitchModelUseCase {
-  (discordAccount: DiscordAccount, model: string): Promise<Account>;
+export interface AccountSetPromptUseCase {
+  (discordAccount: DiscordAccount, prompt: string): Promise<Account>;
 }

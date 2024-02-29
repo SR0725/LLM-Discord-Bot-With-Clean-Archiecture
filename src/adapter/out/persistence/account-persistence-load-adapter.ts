@@ -1,4 +1,4 @@
-import { LoadAccountPort } from "@/application/port/out/load-account-port";
+import type { LoadAccountPort } from "@/application/port/out/load-account-port";
 import fs from "fs";
 
 const AccountPersistenceLoadAdapter: LoadAccountPort = async (

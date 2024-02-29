@@ -1,5 +1,5 @@
-import { Account } from "@/application/domain/model/account";
-import { SaveAccountPort } from "@/application/port/out/save-account-port";
+import type { Account } from "@/application/domain/model/account";
+import type { SaveAccountPort } from "@/application/port/out/save-account-port";
 import fs from "fs";
 
 const AccountPersistenceSaveAdapter: SaveAccountPort = async (
