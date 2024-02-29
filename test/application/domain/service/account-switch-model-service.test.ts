@@ -19,7 +19,8 @@ describe("When account switch model use case", () => {
       memoryLength: 20,
       currentMonthExpense: 0,
       maxMonthlyExpense: 0,
-      chatHistories: [],
+      chatThreads: [],
+      currentThreadId: null,
     };
 
     it("Then updates model", async () => {

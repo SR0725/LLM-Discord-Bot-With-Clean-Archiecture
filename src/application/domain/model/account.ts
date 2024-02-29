@@ -1,4 +1,4 @@
-import { type ChatHistory } from "./chat-history";
+import { type ChatThread } from "./chat-history";
 
 export interface Account {
   accountId: string;
@@ -8,7 +8,8 @@ export interface Account {
   memoryLength: number;
   currentMonthExpense: number;
   maxMonthlyExpense: number;
-  chatHistories: ChatHistory[];
+  currentThreadId: string | null;
+  chatThreads: ChatThread[];
 }
 
 export const createEmptyAccount = (
@@ -22,5 +23,6 @@ export const createEmptyAccount = (
   memoryLength: 20,
   currentMonthExpense: 0,
   maxMonthlyExpense: 0,
-  chatHistories: [],
+  chatThreads: [],
+  currentThreadId: null,
 });
