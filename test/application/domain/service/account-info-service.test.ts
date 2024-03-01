@@ -76,11 +76,11 @@ describe("When account chat", () => {
             value: "無"
           },
           {
-            name: "最高對話長度",
+            name: "允許的最高對話長度",
             value: "20"
           },
           {
-            name: "總花費",
+            name: "對話總花費",
             value: "250 美元",
             inline: true,
           },
@@ -143,11 +143,11 @@ describe("When account chat", () => {
             value: "無"
           },
           {
-            name: "最高對話長度",
+            name: "允許的最高對話長度",
             value: "20"
           },
           {
-            name: "總花費",
+            name: "對話總花費",
             value: "0 美元",
             inline: true,
           },
@@ -196,11 +196,11 @@ describe("When account chat", () => {
             value: "無預設提示詞"
           },
           {
-            name: "最高對話長度",
+            name: "允許的最高對話長度",
             value: "20"
           },
           {
-            name: "總花費",
+            name: "對話總花費",
             value: "0 美元",
             inline: true,
           },
