@@ -5,7 +5,7 @@ import z from "zod";
 
 const commandName = "set-prompt";
 
-const AccountSetPromptHandlerConstructor: InterfaceCommandHandlerConstructor<
+const AccountSetPromptCommandHandlerConstructor: InterfaceCommandHandlerConstructor<
   AccountSetPromptUseCase
 > = (setAccountPrompt) => ({
   slashCommand: new SlashCommandBuilder()
@@ -45,4 +45,4 @@ const AccountSetPromptHandlerConstructor: InterfaceCommandHandlerConstructor<
   },
 });
 
-export default AccountSetPromptHandlerConstructor;
+export default AccountSetPromptCommandHandlerConstructor;

@@ -9,7 +9,7 @@ import AccountNewChatThreadServiceConstructor from "@/application/domain/service
 import AccountChatServiceConstructor from "@/application/domain/service/account-chat-service";
 import ChatAdapter from "@/adapter/out/llm/chat-adapter";
 
-import SetupDiscordCommandHandlers from "@/adapter/in/discord/setup-discord-command-handlers";
+import SetupDiscordHandlers from "@/adapter/in/discord/setup-discord-handlers";
 
 // 初始化語言模型
 const chatWithLLM = ChatAdapter;
@@ -49,7 +49,7 @@ if (!discordGuildId) {
   throw new Error("Discord guild id is required!");
 }
 
-SetupDiscordCommandHandlers(
+SetupDiscordHandlers(
   discordBotToken,
   discordBotClientId,
   discordGuildId,

@@ -6,7 +6,7 @@ import { LLMModel } from "@/application/port/in/llm-model";
 
 const commandName = "model-switch";
 
-const AccountSwitchModelHandlerConstructor: InterfaceCommandHandlerConstructor<
+const AccountSwitchModelCommandHandlerConstructor: InterfaceCommandHandlerConstructor<
   AccountSwitchModelUseCase
 > = (switchAccountModel) => ({
   slashCommand: new SlashCommandBuilder()
@@ -51,4 +51,4 @@ const AccountSwitchModelHandlerConstructor: InterfaceCommandHandlerConstructor<
   },
 });
 
-export default AccountSwitchModelHandlerConstructor;
+export default AccountSwitchModelCommandHandlerConstructor;

@@ -1,19 +1,20 @@
 import { type InterfaceCommandHandlerConstructor } from "@/application/port/in/interface-command-handler";
+import { type AccountNewChatThreadUseCase } from "@/application/port/in/account-new-chat-thread-use-case";
 import { type AccountChatUseCase } from "@/application/port/in/account-chat-use-case";
 import { SlashCommandBuilder } from "discord.js";
 import z from "zod";
 
-const commandName = "chat";
+const commandName = "new-chat";
 
-const AccountNewChatHandlerConstructor: InterfaceCommandHandlerConstructor<
-  AccountChatUseCase
-> = (chat) => ({
+const AccountNewChatCommandHandlerConstructor: InterfaceCommandHandlerConstructor<
+  [AccountNewChatThreadUseCase, AccountChatUseCase]
+> = ([newChatThread, chat]) => ({
   slashCommand: new SlashCommandBuilder()
     .addStringOption((option) =>
-      option.setName("message").setDescription("對話文字").setRequired(true)
+      option.setName("message").setDescription("對話文字")
     )
     .setName(commandName)
-    .setDescription("繼續對話"),
+    .setDescription("開啟新的對話，並設定對話文字"),
 
   handle: async (interaction) => {
     if (interaction.commandName !== commandName) {
@@ -25,9 +26,14 @@ const AccountNewChatHandlerConstructor: InterfaceCommandHandlerConstructor<
         .string()
         .parse(interaction.options.getString("message"));
 
+      await newChatThread({
+        accountId: interaction.user.id,
+        username: interaction.user.username,
+      });
+
       if (!message) {
         await interaction.reply({
-          content: `請輸入對話文字`,
+          content: "已開啟新的對話",
         });
         return;
       }
@@ -40,21 +46,16 @@ const AccountNewChatHandlerConstructor: InterfaceCommandHandlerConstructor<
         message
       );
 
-      console.log("response", response);
-
       await interaction.reply({
-        content:
-          `${interaction.user.username} 說：${message}\n` +
-          `大語言模型回應：${response}\n`,
-        isMessage: true,
+        content: `已開啟新的對話\n${response}`,
       });
     } catch (error) {
       console.error(error);
       await interaction.reply({
-        content: `對話失敗 ${JSON.stringify(error).slice(0, 200)}...`,
+        content: `對話開啟失敗${JSON.stringify(error)}`,
       });
     }
   },
 });
 
-export default AccountNewChatHandlerConstructor;
+export default AccountNewChatCommandHandlerConstructor;
