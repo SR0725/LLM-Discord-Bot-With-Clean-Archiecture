@@ -18,7 +18,7 @@ const AccountNewChatThreadUseCaseConstructor: AccountNewChatThreadUseCaseConstru
       threadId: newThreadId,
       useModel:  account.usedModel,
       prompt: account.prompt,
-      memoryLength: account.memoryLength,
+      maxChatLength: account.maxChatLength,
       chatHistories: [],
     };
 

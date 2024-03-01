@@ -33,7 +33,7 @@ function SetupDiscordHandlers(
       GatewayIntentBits.Guilds,
       GatewayIntentBits.GuildMessages,
       GatewayIntentBits.MessageContent,
-    ]
+    ],
   });
   client.login(token);
   client.once("ready", () => {
@@ -64,14 +64,14 @@ function SetupDiscordCommandHandlers(
   ]);
 
   const accountInfoHandler = AccountInfoCommandHandlerConstructor(
-    services.accountInfoUseCase,
+    services.accountInfoUseCase
   );
 
   const handlers = [
     accountSwitchModelHandler,
     accountSetPromptHandler,
     accountNewChatHandler,
-    accountInfoHandler
+    accountInfoHandler,
   ];
   setupSlashCommand(token, clientId, guildId, handlers);
   setupCommandActiveHandler(client, handlers);
@@ -85,9 +85,7 @@ function SetupDiscordMessageHandlers(
     services.accountChatUseCase
   );
 
-  const handlers = [
-    accountChatHandler,
-  ];
+  const handlers = [accountChatHandler];
   setupMessageActiveHandler(client, handlers);
 }
 
@@ -102,7 +100,17 @@ async function setupSlashCommand(
   try {
     console.log("Started refreshing application (/) commands.");
 
-    await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
+    // rest
+    //   .put(Routes.applicationGuildCommands(clientId, guildId), { body: [] })
+    //   .then(() => console.log("Successfully deleted all guild commands."))
+    //   .catch(console.error);
+
+    // rest
+    //   .put(Routes.applicationCommands(clientId), { body: [] })
+    //   .then(() => console.log("Successfully deleted all application commands."))
+    //   .catch(console.error);
+
+    await rest.put(Routes.applicationCommands(clientId), {
       body: handlers.map((h) => h.slashCommand),
     });
 
@@ -116,16 +124,21 @@ async function setupSlashCommand(
   }
 }
 
-function setupCommandActiveHandler(client: Client, handlers: InterfaceCommandHandler[]) {
+function setupCommandActiveHandler(
+  client: Client,
+  handlers: InterfaceCommandHandler[]
+) {
   client.on("interactionCreate", async (interaction) => {
     if (!interaction.isChatInputCommand()) return;
     handlers.forEach((h) => h.handle(interaction));
   });
 }
 
-function setupMessageActiveHandler(client: Client, handlers: InterfaceMessageHandler[]) {
+function setupMessageActiveHandler(
+  client: Client,
+  handlers: InterfaceMessageHandler[]
+) {
   client.on("messageCreate", async (message) => {
-
     if (message.content.startsWith(":")) {
       handlers.forEach((h) => h.handle(message));
     }

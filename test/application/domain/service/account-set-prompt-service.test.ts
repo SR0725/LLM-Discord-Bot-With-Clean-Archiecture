@@ -18,9 +18,8 @@ describe("When account set prompt", () => {
       username: "testUser",
       usedModel: LLMModel.GPT3,
       prompt: "無",
-      memoryLength: 20,
-      currentMonthExpense: 0,
-      maxMonthlyExpense: 0,
+      maxChatLength: 20,
+      remainingChatPoints: 1000,
       chatThreads: [],
       currentThreadId: null,
     };

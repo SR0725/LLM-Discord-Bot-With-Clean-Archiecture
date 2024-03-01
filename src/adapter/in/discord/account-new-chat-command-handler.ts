@@ -2,7 +2,6 @@ import { type InterfaceCommandHandlerConstructor } from "@/application/port/in/i
 import { type AccountNewChatThreadUseCase } from "@/application/port/in/account-new-chat-thread-use-case";
 import { type AccountChatUseCase } from "@/application/port/in/account-chat-use-case";
 import { SlashCommandBuilder } from "discord.js";
-import z from "zod";
 
 const commandName = "new-chat";
 
@@ -11,7 +10,7 @@ const AccountNewChatCommandHandlerConstructor: InterfaceCommandHandlerConstructo
 > = ([newChatThread, chat]) => ({
   slashCommand: new SlashCommandBuilder()
     .addStringOption((option) =>
-      option.setName("message").setDescription("對話文字")
+      option.setName("message").setDescription("對話文字").setRequired(false)
     )
     .setName(commandName)
     .setDescription("開啟新的對話，並設定對話文字"),
@@ -23,9 +22,7 @@ const AccountNewChatCommandHandlerConstructor: InterfaceCommandHandlerConstructo
 
 
     try {
-      const message = z
-        .string()
-        .parse(interaction.options.getString("message"));
+      const message = interaction.options.getString("message");
 
       const discordAccount = {
         accountId: interaction.user.id,

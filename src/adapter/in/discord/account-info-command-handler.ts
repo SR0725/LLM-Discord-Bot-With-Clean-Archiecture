@@ -21,14 +21,15 @@ const AccountInfoCommandHandlerConstructor: InterfaceCommandHandlerConstructor<
         username: interaction.user.username,
         image: interaction.user.displayAvatarURL(),
       };
-      const infoEmbedData = await getAccountInfo(
-        discordAccount,
-      );
+      const infoEmbedData = await getAccountInfo(discordAccount);
 
       const infoEmbed = new EmbedBuilder()
         .setColor(infoEmbedData.color)
         .setTitle(infoEmbedData.title)
-        .setAuthor({ name: infoEmbedData.author?.name ?? "", iconURL: infoEmbedData.author?.iconURL })
+        .setAuthor({
+          name: infoEmbedData.author?.name ?? "",
+          iconURL: infoEmbedData.author?.iconURL,
+        })
         .setDescription(infoEmbedData.description)
         .addFields(
           ...(infoEmbedData.fields?.map((field) => ({
@@ -38,9 +39,12 @@ const AccountInfoCommandHandlerConstructor: InterfaceCommandHandlerConstructor<
           })) ?? [])
         )
         .setTimestamp()
-        .setFooter({ text: infoEmbedData.footer?.text??"", iconURL: infoEmbedData.footer?.iconURL });
+        .setFooter({
+          text: infoEmbedData.footer?.text ?? "",
+          iconURL: infoEmbedData.footer?.iconURL,
+        });
 
-      await interaction.channel?.send({ embeds: [infoEmbed] });
+      await interaction.reply({ embeds: [infoEmbed] });
     } catch (error) {
       console.error(error);
       await interaction.reply({

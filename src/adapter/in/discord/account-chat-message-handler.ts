@@ -14,28 +14,38 @@ const AccountChatMessageHandlerConstructor: InterfaceMessageHandlerConstructor<
     }
 
     try {
-      const messagePrompt = message.content.slice(1).trim().split(" ").slice(1).join(" ");
+      const messagePrompt = message.content
+        .slice(1)
+        .trim()
+        .split(" ")
+        .slice(1)
+        .join(" ");
 
       if (!messagePrompt) {
         await message.channel.send("請輸入訊息");
         return;
       }
 
+      message.channel.sendTyping();
+      const typingInterval = setInterval(() => {
+        message.channel.sendTyping();
+      }, 5000);
+
       const discordAccount = {
         accountId: message.author.id,
         username: message.author.username,
         image: message.author.displayAvatarURL(),
       };
-      const response = await chat(
-        discordAccount,
-        messagePrompt
-      );
 
+      const response = await chat(discordAccount, messagePrompt);
 
+      clearInterval(typingInterval);
       await message.channel.send(response);
     } catch (error) {
       console.error(error);
-      await message.channel.send(`對話失敗 ${JSON.stringify(error).slice(0, 200)}...`);
+      await message.channel.send(
+        `對話失敗 ${JSON.stringify(error).slice(0, 200)}...`
+      );
     }
   },
 });

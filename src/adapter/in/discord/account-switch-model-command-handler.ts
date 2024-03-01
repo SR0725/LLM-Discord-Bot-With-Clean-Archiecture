@@ -15,10 +15,20 @@ const AccountSwitchModelCommandHandlerConstructor: InterfaceCommandHandlerConstr
         .setName("model")
         .setDescription("模型名稱")
         .setRequired(true)
-        .addChoices({
-          name: LLMModel.GPT3,
-          value: LLMModel.GPT3,
-        })
+        .addChoices(
+          {
+            name: LLMModel.GPT3,
+            value: LLMModel.GPT3,
+          },
+          {
+            name: LLMModel.GPT4,
+            value: LLMModel.GPT4,
+          },
+          {
+            name: LLMModel.GEMINI_PRO,
+            value: LLMModel.GEMINI_PRO,
+          }
+        )
     )
     .setName(commandName)
     .setDescription("模型切換：用戶可以透過指令輕鬆切換當前互動的 AI 模型。"),
@@ -34,10 +44,7 @@ const AccountSwitchModelCommandHandlerConstructor: InterfaceCommandHandlerConstr
         username: interaction.user.username,
         image: interaction.user.displayAvatarURL(),
       };
-      const result = await switchAccountModel(
-        discordAccount,
-        model
-      );
+      const result = await switchAccountModel(discordAccount, model);
 
       await interaction.reply({
         content: `Switched model to ${result.usedModel}`,

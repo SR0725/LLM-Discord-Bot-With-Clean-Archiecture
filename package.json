@@ -30,6 +30,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.2.1",
     "discord.js": "^14.14.1",
     "dotenv-cli": "^7.3.0",
     "openai": "^4.28.4",

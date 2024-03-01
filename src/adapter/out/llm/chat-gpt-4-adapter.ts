@@ -11,13 +11,12 @@ const chatRoleToCompletionMap = {
   [Role.User]: "user",
 };
 
-const chatPricePerInputToken = 0.5 / 1000000;
-const chatPricePerOutputToken = 1.5 / 1000000;
+const chatPricePerInputToken = 10 / 1000000;
+const chatPricePerOutputToken = 30 / 1000000;
 
-const ChatGPT3Adapter: LLMApiUsePort = async (prompt, chatHistories) => {
+const ChatGPT4Adapter: LLMApiUsePort = async (prompt, chatHistories) => {
   const completion = await openAi.chat.completions.create({
     temperature: 0,
-    max_tokens: 150,
     messages: [
       { role: "system", content: prompt },
       ...(chatHistories.map((chat) => ({
@@ -26,7 +25,7 @@ const ChatGPT3Adapter: LLMApiUsePort = async (prompt, chatHistories) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       })) as Array<any>),
     ],
-    model: "gpt-3.5-turbo",
+    model: "gpt-4-turbo-preview",
   });
 
   const promptTokens = completion.usage?.prompt_tokens ?? 0;
@@ -41,4 +40,4 @@ const ChatGPT3Adapter: LLMApiUsePort = async (prompt, chatHistories) => {
   };
 };
 
-export default ChatGPT3Adapter;
+export default ChatGPT4Adapter;

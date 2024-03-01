@@ -7,7 +7,11 @@ import { LLMModel } from "@/application/port/in/llm-model";
 describe("When account renew a chat thread", () => {
   const mockLoadAccount = jest.fn();
   const mockSaveAccount = jest.fn();
-  const mockDiscordAccount =  { accountId: "123", username: "testUser", image: "https://example.com" };
+  const mockDiscordAccount = {
+    accountId: "123",
+    username: "testUser",
+    image: "https://example.com",
+  };
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -19,44 +23,81 @@ describe("When account renew a chat thread", () => {
     const existingAccount: Account = {
       accountId,
       username: "testUser",
-      usedModel: LLMModel.GPT3,
+      usedModel: LLMModel.test,
       prompt: "無",
-      memoryLength: 20,
-      currentMonthExpense: 0,
-      maxMonthlyExpense: 0,
+      maxChatLength: 20,
+      remainingChatPoints: 1000,
       currentThreadId: currentThreadId,
-      chatThreads: [{
-        accountId,
-        threadId: currentThreadId,
-        useModel: LLMModel.GPT3,
-        prompt: "無",
-        memoryLength: 20,
-        chatHistories: [{
-          id: "1",
+      chatThreads: [
+        {
+          accountId,
           threadId: currentThreadId,
-          role: Role.Bot,
-          content: "Hello",
-          cost: 50
-        }, {
-          id: "2",
-          threadId: currentThreadId,
-          role: Role.Bot,
-          content: "Hello, 我是機器人",
-          cost: 50
-        }],
-      }],
+          useModel: LLMModel.test,
+          prompt: "無",
+          maxChatLength: 20,
+          chatHistories: [
+            {
+              id: "1",
+              threadId: currentThreadId,
+              role: Role.Bot,
+              content: "Hello",
+              cost: 50,
+              timestamp: new Date().getTime(),
+            },
+            {
+              id: "2",
+              threadId: currentThreadId,
+              role: Role.Bot,
+              content: "Hello, 我是機器人",
+              cost: 50,
+              timestamp: new Date().getTime(),
+            },
+            {
+              id: "1",
+              threadId: currentThreadId,
+              role: Role.Bot,
+              content: "Hello",
+              cost: 50,
+              timestamp: new Date().getTime(),
+            },
+            {
+              id: "2",
+              threadId: currentThreadId,
+              role: Role.Bot,
+              content: "Hello, 我是機器人",
+              cost: 50,
+              timestamp: new Date().getTime(),
+            },
+            {
+              id: "1",
+              threadId: currentThreadId,
+              role: Role.Bot,
+              content: "Hello",
+              cost: 50,
+              timestamp: new Date().getTime(),
+            },
+            {
+              id: "2",
+              threadId: currentThreadId,
+              role: Role.Bot,
+              content: "Hello, 我是機器人",
+              cost: 50,
+              timestamp: new Date().getTime(),
+            },
+          ],
+        },
+      ],
     };
 
     it("Then create new chat thread", async () => {
       mockLoadAccount.mockResolvedValue(existingAccount);
-      const useCase: AccountNewChatThreadUseCase = AccountNewChatThreadUseCaseConstructor(
-        mockLoadAccount,
-        mockSaveAccount,
-      );
+      const useCase: AccountNewChatThreadUseCase =
+        AccountNewChatThreadUseCaseConstructor(
+          mockLoadAccount,
+          mockSaveAccount
+        );
 
-      await useCase(
-        mockDiscordAccount,
-      );
+      await useCase(mockDiscordAccount);
 
       expect(mockSaveAccount).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -69,11 +110,12 @@ describe("When account renew a chat thread", () => {
               threadId: expect.any(String),
               useModel: existingAccount.usedModel,
               prompt: existingAccount.prompt,
-              memoryLength: existingAccount.memoryLength,
+              maxChatLength: existingAccount.maxChatLength,
               chatHistories: [],
-            }
-          ]
-        }));
+            },
+          ],
+        })
+      );
     });
   });
 
@@ -82,25 +124,23 @@ describe("When account renew a chat thread", () => {
     const existingAccount: Account = {
       accountId,
       username: "testUser",
-      usedModel: LLMModel.GPT3,
+      usedModel: LLMModel.test,
       prompt: "無",
-      memoryLength: 20,
-      currentMonthExpense: 0,
-      maxMonthlyExpense: 0,
+      maxChatLength: 20,
+      remainingChatPoints: 1000,
       currentThreadId: null,
       chatThreads: [],
     };
 
     it("Then create new chat thread", async () => {
       mockLoadAccount.mockResolvedValue(existingAccount);
-      const useCase: AccountNewChatThreadUseCase = AccountNewChatThreadUseCaseConstructor(
-        mockLoadAccount,
-        mockSaveAccount,
-      );
+      const useCase: AccountNewChatThreadUseCase =
+        AccountNewChatThreadUseCaseConstructor(
+          mockLoadAccount,
+          mockSaveAccount
+        );
 
-      await useCase(
-        mockDiscordAccount,
-      );
+      await useCase(mockDiscordAccount);
 
       expect(mockSaveAccount).toHaveBeenCalledWith({
         ...existingAccount,
@@ -111,10 +151,10 @@ describe("When account renew a chat thread", () => {
             threadId: expect.any(String),
             useModel: existingAccount.usedModel,
             prompt: existingAccount.prompt,
-            memoryLength: existingAccount.memoryLength,
+            maxChatLength: existingAccount.maxChatLength,
             chatHistories: [],
-          }
-        ]
+          },
+        ],
       });
     });
   });
@@ -122,14 +162,13 @@ describe("When account renew a chat thread", () => {
   describe("Given new account", () => {
     it("Then create new chat thread", async () => {
       mockLoadAccount.mockResolvedValue(null);
-      const useCase: AccountNewChatThreadUseCase = AccountNewChatThreadUseCaseConstructor(
-        mockLoadAccount,
-        mockSaveAccount,
-      );
+      const useCase: AccountNewChatThreadUseCase =
+        AccountNewChatThreadUseCaseConstructor(
+          mockLoadAccount,
+          mockSaveAccount
+        );
 
-      await useCase(
-        mockDiscordAccount,
-      );
+      await useCase(mockDiscordAccount);
 
       expect(mockSaveAccount).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -140,9 +179,10 @@ describe("When account renew a chat thread", () => {
               accountId: mockDiscordAccount.accountId,
               threadId: expect.any(String),
               chatHistories: [],
-            })
-          ])
-        }));
+            }),
+          ]),
+        })
+      );
     });
   });
 });
