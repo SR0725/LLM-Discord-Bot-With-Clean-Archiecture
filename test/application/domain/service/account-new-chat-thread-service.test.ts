@@ -7,6 +7,7 @@ import { LLMModel } from "@/application/port/in/llm-model";
 describe("When account renew a chat thread", () => {
   const mockLoadAccount = jest.fn();
   const mockSaveAccount = jest.fn();
+  const mockDiscordAccount =  { accountId: "123", username: "testUser", image: "https://example.com" };
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -54,7 +55,7 @@ describe("When account renew a chat thread", () => {
       );
 
       await useCase(
-        { accountId: "123", username: "testUser" },
+        mockDiscordAccount,
       );
 
       expect(mockSaveAccount).toHaveBeenCalledWith(
@@ -98,7 +99,7 @@ describe("When account renew a chat thread", () => {
       );
 
       await useCase(
-        { accountId: "123", username: "testUser" },
+        mockDiscordAccount,
       );
 
       expect(mockSaveAccount).toHaveBeenCalledWith({
@@ -126,19 +127,17 @@ describe("When account renew a chat thread", () => {
         mockSaveAccount,
       );
 
-      const newAccountId = "456";
-      const newUsername = "newUser";
       await useCase(
-        { accountId: newAccountId, username: newUsername },
+        mockDiscordAccount,
       );
 
       expect(mockSaveAccount).toHaveBeenCalledWith(
         expect.objectContaining({
-          accountId: newAccountId,
-          username: newUsername,
+          accountId: mockDiscordAccount.accountId,
+          username: mockDiscordAccount.username,
           chatThreads: expect.objectContaining([
             expect.objectContaining({
-              accountId: newAccountId,
+              accountId: mockDiscordAccount.accountId,
               threadId: expect.any(String),
               chatHistories: [],
             })

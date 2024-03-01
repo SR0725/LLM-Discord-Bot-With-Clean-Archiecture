@@ -21,15 +21,19 @@ const AccountNewChatCommandHandlerConstructor: InterfaceCommandHandlerConstructo
       return;
     }
 
+
     try {
       const message = z
         .string()
         .parse(interaction.options.getString("message"));
 
-      await newChatThread({
+      const discordAccount = {
         accountId: interaction.user.id,
         username: interaction.user.username,
-      });
+        image: interaction.user.displayAvatarURL(),
+      };
+
+      await newChatThread(discordAccount);
 
       if (!message) {
         await interaction.reply({
@@ -39,10 +43,7 @@ const AccountNewChatCommandHandlerConstructor: InterfaceCommandHandlerConstructo
       }
 
       const response = await chat(
-        {
-          accountId: interaction.user.id,
-          username: interaction.user.username,
-        },
+        discordAccount,
         message
       );
 

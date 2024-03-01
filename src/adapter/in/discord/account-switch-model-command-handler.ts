@@ -29,11 +29,13 @@ const AccountSwitchModelCommandHandlerConstructor: InterfaceCommandHandlerConstr
 
     try {
       const model = z.string().parse(interaction.options.getString("model"));
+      const discordAccount = {
+        accountId: interaction.user.id,
+        username: interaction.user.username,
+        image: interaction.user.displayAvatarURL(),
+      };
       const result = await switchAccountModel(
-        {
-          accountId: interaction.user.id,
-          username: interaction.user.username,
-        },
+        discordAccount,
         model
       );
 

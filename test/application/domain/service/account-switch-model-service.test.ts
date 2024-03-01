@@ -6,6 +6,7 @@ import { LLMModel } from "@/application/port/in/llm-model";
 describe("When account switch model use case", () => {
   const mockLoadAccount = jest.fn();
   const mockSaveAccount = jest.fn();
+  const mockDiscordAccount =  { accountId: "123", username: "testUser", image: "https://example.com" };
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -33,7 +34,7 @@ describe("When account switch model use case", () => {
       );
 
       const updatedAccount = await useCase(
-        { accountId: "123", username: "testUser" },
+        mockDiscordAccount,
         newModel
       );
 
@@ -54,25 +55,23 @@ describe("When account switch model use case", () => {
         mockSaveAccount
       );
 
-      const newAccountId = "456";
-      const newUsername = "newUser";
       const newModel = LLMModel.GPT4;
       const newAccount = await useCase(
-        { accountId: newAccountId, username: newUsername },
+        mockDiscordAccount,
         newModel
       );
 
       expect(mockSaveAccount).toHaveBeenCalledWith(
         expect.objectContaining({
-          accountId: newAccountId,
-          username: newUsername,
+          accountId: mockDiscordAccount.accountId,
+          username: mockDiscordAccount.username,
           usedModel: newModel,
         })
       );
       expect(newAccount).toEqual(
         expect.objectContaining({
-          accountId: newAccountId,
-          username: newUsername,
+          accountId: mockDiscordAccount.accountId,
+          username: mockDiscordAccount.username,
           usedModel: newModel,
         })
       );

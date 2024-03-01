@@ -8,6 +8,7 @@ describe("When account chat", () => {
   const mockLoadAccount = jest.fn();
   const mockSaveAccount = jest.fn();
   const mockChatWithLLM = jest.fn();
+  const mockDiscordAccount =  { accountId: "123", username: "testUser", image: "https://example.com" };
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -86,7 +87,7 @@ describe("When account chat", () => {
       );
 
       const response = await useCase(
-        { accountId: "123", username: "testUser" },
+        mockDiscordAccount,
         "Hello"
       );
 
@@ -167,7 +168,7 @@ describe("When account chat", () => {
       );
 
       const response = await useCase(
-        { accountId: "123", username: "testUser" },
+        mockDiscordAccount,
         "Hello"
       );
 
@@ -212,7 +213,7 @@ describe("When account chat", () => {
       );
 
       const response = await useCase(
-        { accountId: "123", username: "testUser" },
+        mockDiscordAccount,
         "Hello"
       );
 
@@ -236,7 +237,7 @@ describe("When account chat", () => {
       );
 
       const response = await useCase(
-        { accountId: "123", username: "testUser" },
+        mockDiscordAccount,
         "Hello"
       );
 

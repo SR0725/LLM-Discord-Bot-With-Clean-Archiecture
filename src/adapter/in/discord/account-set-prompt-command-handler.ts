@@ -23,11 +23,13 @@ const AccountSetPromptCommandHandlerConstructor: InterfaceCommandHandlerConstruc
     try {
       const prompt = z.string().parse(interaction.options.getString("prompt"));
 
+      const discordAccount = {
+        accountId: interaction.user.id,
+        username: interaction.user.username,
+        image: interaction.user.displayAvatarURL(),
+      };
       const result = await setAccountPrompt(
-        {
-          accountId: interaction.user.id,
-          username: interaction.user.username,
-        },
+        discordAccount,
         prompt
       );
 

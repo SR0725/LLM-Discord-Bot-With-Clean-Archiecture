@@ -6,6 +6,7 @@ import { LLMModel } from "@/application/port/in/llm-model";
 describe("When account set prompt", () => {
   const mockLoadAccount = jest.fn();
   const mockSaveAccount = jest.fn();
+  const mockDiscordAccount =  { accountId: "123", username: "testUser", image: "https://example.com" };
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -32,7 +33,7 @@ describe("When account set prompt", () => {
       );
       const newPrompt = "貓咪";
       const updatedAccount = await useCase(
-        { accountId: "123", username: "testUser" },
+        mockDiscordAccount,
         newPrompt
       );
 
@@ -53,25 +54,23 @@ describe("When account set prompt", () => {
         mockSaveAccount
       );
 
-      const newAccountId = "456";
-      const newUsername = "newUser";
       const prompt = "狗勾";
       const newAccount = await useCase(
-        { accountId: newAccountId, username: newUsername },
+        mockDiscordAccount,
         prompt
       );
 
       expect(mockSaveAccount).toHaveBeenCalledWith(
         expect.objectContaining({
-          accountId: newAccountId,
-          username: newUsername,
+          accountId: mockDiscordAccount.accountId,
+          username: mockDiscordAccount.username,
           prompt: prompt,
         })
       );
       expect(newAccount).toEqual(
         expect.objectContaining({
-          accountId: newAccountId,
-          username: newUsername,
+          accountId: mockDiscordAccount.accountId,
+          username: mockDiscordAccount.username,
           prompt: prompt,
         })
       );

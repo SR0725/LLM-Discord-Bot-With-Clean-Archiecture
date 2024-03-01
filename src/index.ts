@@ -7,6 +7,7 @@ import AccountSwitchModelServiceConstructor from "@/application/domain/service/a
 import AccountSetPromptServiceConstructor from "@/application/domain/service/account-set-prompt-service";
 import AccountNewChatThreadServiceConstructor from "@/application/domain/service/account-new-chat-thread-service";
 import AccountChatServiceConstructor from "@/application/domain/service/account-chat-service";
+import AccountInfoUseCaseConstructor from "@/application/domain/service/account-info-service";
 import ChatAdapter from "@/adapter/out/llm/chat-adapter";
 
 import SetupDiscordHandlers from "@/adapter/in/discord/setup-discord-handlers";
@@ -34,6 +35,9 @@ const accountChatUseCase = AccountChatServiceConstructor(
   saveAccount,
   chatWithLLM
 );
+const accountInfoUseCase = AccountInfoUseCaseConstructor(
+  loadAccount
+);
 
 // 初始化 Discord 指令處理器
 const discordBotToken = process.env.DISCORD_BOT_TOKEN ?? "";
@@ -58,5 +62,6 @@ SetupDiscordHandlers(
     accountSetPromptUseCase,
     accountNewChatThreadUseCase,
     accountChatUseCase,
+    accountInfoUseCase
   }
 );

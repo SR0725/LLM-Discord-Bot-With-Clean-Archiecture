@@ -10,12 +10,15 @@ import AccountNewChatCommandHandlerConstructor from "./account-new-chat-command-
 import AccountChatMessageHandlerConstructor from "./account-chat-message-handler";
 import type { InterfaceCommandHandler } from "@/application/port/in/interface-command-handler";
 import type { InterfaceMessageHandler } from "@/application/port/in/interface-message-handler";
+import AccountInfoCommandHandlerConstructor from "./account-info-command-handler";
+import type { AccountInfoUseCase } from "@/application/port/in/account-info-use-case";
 
 interface ServiceList {
   accountSwitchModelUseCase: AccountSwitchModelUseCase;
   accountSetPromptUseCase: AccountSetPromptUseCase;
   accountNewChatThreadUseCase: AccountNewChatThreadUseCase;
   accountChatUseCase: AccountChatUseCase;
+  accountInfoUseCase: AccountInfoUseCase;
 }
 
 function SetupDiscordHandlers(
@@ -60,10 +63,15 @@ function SetupDiscordCommandHandlers(
     services.accountChatUseCase,
   ]);
 
+  const accountInfoHandler = AccountInfoCommandHandlerConstructor(
+    services.accountInfoUseCase,
+  );
+
   const handlers = [
     accountSwitchModelHandler,
     accountSetPromptHandler,
     accountNewChatHandler,
+    accountInfoHandler
   ];
   setupSlashCommand(token, clientId, guildId, handlers);
   setupCommandActiveHandler(client, handlers);

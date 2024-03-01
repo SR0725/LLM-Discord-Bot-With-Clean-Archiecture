@@ -21,11 +21,13 @@ const AccountChatMessageHandlerConstructor: InterfaceMessageHandlerConstructor<
         return;
       }
 
+      const discordAccount = {
+        accountId: message.author.id,
+        username: message.author.username,
+        image: message.author.displayAvatarURL(),
+      };
       const response = await chat(
-        {
-          accountId: message.author.id,
-          username: message.author.username,
-        },
+        discordAccount,
         messagePrompt
       );
 
