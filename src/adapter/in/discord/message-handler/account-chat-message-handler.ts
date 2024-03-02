@@ -1,9 +1,8 @@
-import { type InterfaceMessageHandlerConstructor } from "@/application/port/in/interface-message-handler";
+import { type InterfaceMessageHandlerConstructor } from "@/adapter/in/discord/message-handler/interface-message-handler";
 import { type AccountChatUseCase } from "@/application/port/in/account-chat-use-case";
 import fs from "fs";
 import http from "https";
 import uuid from "@/common/uuid";
-import { Attachment } from "discord.js";
 
 const commandName = "chat";
 

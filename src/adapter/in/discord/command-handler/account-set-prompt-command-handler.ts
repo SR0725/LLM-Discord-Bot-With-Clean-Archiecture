@@ -1,4 +1,4 @@
-import { type InterfaceCommandHandlerConstructor } from "@/application/port/in/interface-command-handler";
+import { type InterfaceCommandHandlerConstructor } from "@/adapter/in/discord/command-handler/interface-command-handler";
 import { type AccountSetPromptUseCase } from "@/application/port/in/account-set-prompt-use-case";
 import { SlashCommandBuilder } from "discord.js";
 import z from "zod";

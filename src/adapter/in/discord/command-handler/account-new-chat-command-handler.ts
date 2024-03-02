@@ -1,4 +1,4 @@
-import { type InterfaceCommandHandlerConstructor } from "@/application/port/in/interface-command-handler";
+import { type InterfaceCommandHandlerConstructor } from "@/adapter/in/discord/command-handler/interface-command-handler";
 import { type AccountNewChatThreadUseCase } from "@/application/port/in/account-new-chat-thread-use-case";
 import { type AccountChatUseCase } from "@/application/port/in/account-chat-use-case";
 import { SlashCommandBuilder } from "discord.js";
