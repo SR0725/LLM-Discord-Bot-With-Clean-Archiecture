@@ -12,5 +12,12 @@ export interface AccountChatUseCaseConstructor {
 }
 
 export interface AccountChatUseCase {
-  (discordAccount: DiscordAccount, message: string): Promise<string>;
+  (
+    discordAccount: DiscordAccount,
+    message: string,
+    images?: {
+      path: string;
+      mimeType: "image/png" | "image/jpeg";
+    }[]
+  ): Promise<string>;
 }

@@ -6,7 +6,7 @@ import { Role } from "../model/chat";
 
 const AccountChatUseCaseConstructor: AccountChatUseCaseConstructor =
   (loadAccount, saveAccount, chatWithLLM) =>
-  async (discordAccount, message) => {
+  async (discordAccount, message, imagePaths) => {
     // 加載用戶賬戶，如果不存在則創建一個新的賬戶
     const account =
       (await loadAccount(discordAccount.accountId)) ??
@@ -48,6 +48,7 @@ const AccountChatUseCaseConstructor: AccountChatUseCaseConstructor =
         role: Role.User,
         content: message,
         cost: 0,
+        imagePaths,
       },
     ];
 

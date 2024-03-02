@@ -1,7 +1,8 @@
 import type { LLMApiUsePort } from "@/application/port/out/llm-api-use-port";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Role } from "@/application/port/out/chat";
-
+import fileToGenerativeBufferPart from "@/common/file-to-generative-buffer-part";
+// need refactor
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 const chatRoleToCompletionMap = {
@@ -13,18 +14,25 @@ const chatPricePerInputToken = 0;
 const chatPricePerOutputToken = 0;
 
 const ChatGeminiProAdapter: LLMApiUsePort = async (prompt, chatHistories) => {
+  const lastChat = chatHistories[chatHistories.length - 1];
+  const chatHistoriesWithoutLast = chatHistories.slice(0, -1);
+  const usedModel = lastChat.imagePaths && lastChat.imagePaths.length > 1
+        ? "gemini-pro-vision"
+        : "gemini-pro"
   const model = genAI.getGenerativeModel({
-    model: "gemini-pro",
+    model: usedModel,
     generationConfig: {
       temperature: 0,
     },
   });
-  const lastChat = chatHistories[chatHistories.length - 1];
-  const chatHistoriesWithoutLast = chatHistories.slice(0, -1);
+
+  const imageParts = lastChat.imagePaths?.map(({ path, mimeType }) =>
+    fileToGenerativeBufferPart(path, mimeType)
+  );
 
   const chat = model.startChat({
     history: [
-      ...(prompt ? [{ role: "system", parts: prompt }] : []),
+      ...(prompt ? [{ role: "user", parts: prompt }] : []),
       ...(chatHistoriesWithoutLast.map((chat) => ({
         role: chatRoleToCompletionMap[chat.role],
         parts: chat.content,
@@ -32,9 +40,12 @@ const ChatGeminiProAdapter: LLMApiUsePort = async (prompt, chatHistories) => {
     ],
   });
 
-  const result = await chat.sendMessage(lastChat.content);
+  const result = imageParts
+    ? await model.generateContent([lastChat.content, ...imageParts])
+    : await chat.sendMessage(lastChat.content);
   const response = await result.response;
   const content = response.text();
+
   console.log(JSON.stringify(response), content);
   const { totalTokens: promptTokens } = await model.countTokens(
     lastChat.content

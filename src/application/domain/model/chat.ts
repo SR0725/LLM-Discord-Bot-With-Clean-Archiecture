@@ -19,4 +19,8 @@ export interface ChatHistory {
   role: Role;
   content: string;
   cost: number;
+  imagePaths?: {
+    path: string;
+    mimeType: "image/png" | "image/jpeg";
+  }[];
 }
