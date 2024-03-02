@@ -32,9 +32,7 @@ const AccountChatMessageHandlerConstructor: InterfaceMessageHandlerConstructor<
   AccountChatUseCase
 > = (chat) => ({
   handle: async (message) => {
-    /// 取得訊息內容中的前幾個字元是否為觸發指令
-    const command = message.content.slice(1).trim().split(" ")[0];
-    if (command !== commandName) {
+    if (!message.content.startsWith("<@1211656440331112498>")) {
       return;
     }
 

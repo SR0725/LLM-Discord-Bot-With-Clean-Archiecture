@@ -6,7 +6,7 @@ function setupMessageActiveHandler(
   handlers: InterfaceMessageHandler[]
 ) {
   client.on("messageCreate", async (message) => {
-    if (message.content.startsWith(":")) {
+    if (message.content.includes("<@1211656440331112498>")) {
       handlers.forEach((h) => h.handle(message));
     }
   });

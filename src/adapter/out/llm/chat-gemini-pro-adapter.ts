@@ -46,7 +46,6 @@ const ChatGeminiProAdapter: LLMApiUsePort = async (prompt, chatHistories) => {
   const response = await result.response;
   const content = response.text();
 
-  console.log(JSON.stringify(response), content);
   const { totalTokens: promptTokens } = await model.countTokens(
     lastChat.content
   );

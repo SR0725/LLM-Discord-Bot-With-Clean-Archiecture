@@ -55,10 +55,11 @@ Discord AI Bot 是一個強大的機器學習模型互動工具，它允許 Disc
   `/setPrompt [提示詞]`
 
 - 繼續上一次的對話，並進行互動。 <br>
-  直接對話： <br>
-  `:chat`
+  直接 tag 該機器人並直接對話： <br>
+  `@Ray-Realms Hi，...`
 
 ### TODO: 管理員功能(播放音樂)
+
 - 能播放音樂網站 youtube
 - 可以建立清單
 
