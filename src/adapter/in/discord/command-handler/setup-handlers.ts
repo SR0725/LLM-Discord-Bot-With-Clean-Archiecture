@@ -8,7 +8,7 @@ import { type AccountSetPromptUseCase } from "@/application/port/in/account-set-
 import { type AccountNewChatThreadUseCase } from "@/application/port/in/account-new-chat-thread-use-case";
 import { type AccountChatUseCase } from "@/application/port/in/account-chat-use-case";
 import type { AccountInfoUseCase } from "@/application/port/in/account-info-use-case";
-import { Client } from "discord.js";
+import type { Client } from "discord.js";
 import setupSlashCommand from "./setup-slash-command";
 import setupCommandServiceHandler from "./setup-command-service-handler";
 

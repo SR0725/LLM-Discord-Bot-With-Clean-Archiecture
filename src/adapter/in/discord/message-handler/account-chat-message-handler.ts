@@ -4,12 +4,10 @@ import fs from "fs";
 import http from "https";
 import uuid from "@/common/uuid";
 
-const commandName = "chat";
-
 async function downloadFileFromUrl(
   url: string,
   path: string
-): Promise<Boolean> {
+): Promise<boolean> {
   return new Promise((resolve, reject) => {
     const file = fs.createWriteStream(path);
     http.get(url, (response) => {

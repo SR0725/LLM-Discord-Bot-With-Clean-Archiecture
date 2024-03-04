@@ -1,5 +1,5 @@
-import { REST, Routes, GatewayIntentBits } from "discord.js";
-import { InterfaceCommandHandler } from "./interface-command-handler";
+import { REST, Routes } from "discord.js";
+import type { InterfaceCommandHandler } from "./interface-command-handler";
 
 async function setupSlashCommand(
   token: string,

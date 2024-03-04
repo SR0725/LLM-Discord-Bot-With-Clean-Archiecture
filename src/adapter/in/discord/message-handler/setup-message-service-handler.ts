@@ -1,5 +1,5 @@
-import { Client } from "discord.js";
-import { InterfaceMessageHandler } from "./interface-message-handler";
+import type { Client } from "discord.js";
+import type { InterfaceMessageHandler } from "./interface-message-handler";
 
 function setupMessageActiveHandler(
   client: Client,

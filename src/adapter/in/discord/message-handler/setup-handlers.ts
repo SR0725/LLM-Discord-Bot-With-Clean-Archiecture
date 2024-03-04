@@ -1,7 +1,7 @@
 import AccountChatMessageHandlerConstructor from "./account-chat-message-handler";
 import { type AccountChatUseCase } from "@/application/port/in/account-chat-use-case";
 import setupMessageActiveHandler from "./setup-message-service-handler";
-import { Client } from "discord.js";
+import type { Client } from "discord.js";
 
 export interface ServiceList {
   accountChatUseCase: AccountChatUseCase;

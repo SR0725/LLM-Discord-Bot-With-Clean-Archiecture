@@ -2,9 +2,25 @@
 
 Discord AI Bot 是一個強大的機器學習模型互動工具，它允許 Discord 服務器的成員透過簡單的命令與 ChatGPT、Gemini 等 AI 模型進行互動。此 bot 特別適合於需要快速訪問這些模型以回答問題、生成內容或進行特定任務的社群。
 
+## 安裝
+
+### 環境需求
+
+- Node.js 18.0.0 或更高版本
+
+### 環境配置
+根據 .env.example 檔案的格式，創建一個 .env 檔案，並填入以下資訊：
+DISCORD_BOT_TOKEN=XXX
+DISCORD_BOT_CLIENT_ID=XXX
+DISCORD_GUILD_ID=XXX
+OPENAI_API_KEY=XXX
+GEMINI_API_KEY=XXX
+
 ## 功能與指令
 
-<!-- ### TODO: 管理員功能(全都未完成)
+<!-- 
+ (註解表示未完成)
+### TODO: 管理員功能
 
 - 查詢系統開銷：可以查詢所有服務器中所有成員的當月使用情況。 <br>
   命令： <br>
@@ -58,7 +74,7 @@ Discord AI Bot 是一個強大的機器學習模型互動工具，它允許 Disc
   直接 tag 該機器人並直接對話： <br>
   `@Ray-Realms Hi，...`
 
-<!-- ### TODO: 管理員功能(播放音樂)
+<!-- ### TODO: 播放音樂
 - 能播放音樂網站 youtube
 - 可以建立清單 -->
 

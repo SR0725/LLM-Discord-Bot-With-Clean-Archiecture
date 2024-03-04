@@ -6,6 +6,7 @@ import {
 } from "@google/generative-ai";
 import { Role } from "@/application/port/out/chat";
 import fileToGenerativeBufferPart from "@/common/file-to-generative-buffer-part";
+
 // need refactor
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
@@ -57,6 +58,7 @@ const ChatGeminiProAdapter: LLMApiUsePort = async (prompt, chatHistories) => {
     ...(chatHistories.map((chat) => ({
       role: chatRoleToCompletionMap[chat.role],
       parts: chat.content,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     })) as Array<any>),
   ];
 
