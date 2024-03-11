@@ -8,6 +8,7 @@ function discordChatTypeHandler(
   let typingInterval: NodeJS.Timeout | null = null;
 
   const startTyping = () => {
+    channel.sendTyping();
     typingInterval = setInterval(() => {
       typingTimes++;
       channel.sendTyping();
