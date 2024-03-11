@@ -27,6 +27,14 @@ const AccountSwitchModelCommandHandlerConstructor: InterfaceCommandHandlerConstr
           {
             name: LLMModel.GEMINI_PRO,
             value: LLMModel.GEMINI_PRO,
+          },
+          {
+            name: LLMModel.CLAUDE_SONNET,
+            value: LLMModel.CLAUDE_SONNET,
+          },
+          {
+            name: `${LLMModel.CLAUDE_OPUS} 最高級模型`,
+            value: LLMModel.CLAUDE_OPUS,
           }
         )
     )
