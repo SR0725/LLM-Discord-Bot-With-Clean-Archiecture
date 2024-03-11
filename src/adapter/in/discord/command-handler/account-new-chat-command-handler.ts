@@ -9,9 +9,6 @@ const AccountNewChatCommandHandlerConstructor: InterfaceCommandHandlerConstructo
   [AccountNewChatThreadUseCase, AccountChatUseCase]
 > = ([newChatThread, chat]) => ({
   slashCommand: new SlashCommandBuilder()
-    .addStringOption((option) =>
-      option.setName("message").setDescription("對話文字").setRequired(false)
-    )
     .setName(commandName)
     .setDescription("開啟新的對話，並設定對話文字"),
 
@@ -20,10 +17,7 @@ const AccountNewChatCommandHandlerConstructor: InterfaceCommandHandlerConstructo
       return;
     }
 
-
     try {
-      const message = interaction.options.getString("message");
-
       const discordAccount = {
         accountId: interaction.user.id,
         username: interaction.user.username,
@@ -32,20 +26,8 @@ const AccountNewChatCommandHandlerConstructor: InterfaceCommandHandlerConstructo
 
       await newChatThread(discordAccount);
 
-      if (!message) {
-        await interaction.reply({
-          content: "已開啟新的對話",
-        });
-        return;
-      }
-
-      const response = await chat(
-        discordAccount,
-        message
-      );
-
       await interaction.reply({
-        content: `已開啟新的對話\n${response}`,
+        content: "已開啟新的對話",
       });
     } catch (error) {
       console.error(error);

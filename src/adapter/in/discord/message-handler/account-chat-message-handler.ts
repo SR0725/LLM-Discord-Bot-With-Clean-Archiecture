@@ -3,6 +3,7 @@ import { type AccountChatUseCase } from "@/application/port/in/account-chat-use-
 import fs from "fs";
 import http from "https";
 import uuid from "@/common/uuid";
+import discordChatTypeHandler from "./discord-chat-typing-handler";
 
 async function downloadFileFromUrl(
   url: string,
@@ -83,10 +84,10 @@ const AccountChatMessageHandlerConstructor: InterfaceMessageHandlerConstructor<
       }
 
       // 顯示正在打字
-      message.channel.sendTyping();
-      const typingInterval = setInterval(() => {
-        message.channel.sendTyping();
-      }, 5000);
+      const { startTyping, stopTyping } = discordChatTypeHandler(
+        message.channel
+      );
+      startTyping();
 
       // 取得使用者資訊
       const discordAccount = {
@@ -98,7 +99,8 @@ const AccountChatMessageHandlerConstructor: InterfaceMessageHandlerConstructor<
       // 取得回應
       const response = await chat(discordAccount, messagePrompt, imagePaths);
 
-      clearInterval(typingInterval);
+      // 停止打字
+      stopTyping();
       await message.channel.send(response);
     } catch (error) {
       console.error(error);
