@@ -96,20 +96,23 @@ const AccountChatMessageHandlerConstructor: InterfaceMessageHandlerConstructor<
         image: message.author.displayAvatarURL(),
       };
 
-      // 取得回應
-      const response = await chat(discordAccount, messagePrompt, imagePaths);
+      try {
+        // 取得回應
+        const response = await chat(discordAccount, messagePrompt, imagePaths);
 
-      // 停止打字
-      stopTyping();
-
-      if (response.length > 1000) {
-        // 分段回應
-        const responseParts = response.match(/[\s\S]{1,1000}/g) ?? [];
-        for (const responsePart of responseParts) {
-          await message.channel.send(responsePart);
+        if (response.length > 1000) {
+          // 分段回應
+          const responseParts = response.match(/[\s\S]{1,1000}/g) ?? [];
+          for (const responsePart of responseParts) {
+            await message.channel.send(responsePart);
+          }
+        } else {
+          await message.channel.send(response);
         }
-      } else {
-        await message.channel.send(response);
+      } catch (error) {
+        throw new Error(`對話失敗 ${JSON.stringify(error).slice(0, 200)}...`);
+      } finally {
+        stopTyping();
       }
     } catch (error) {
       console.error(error);
