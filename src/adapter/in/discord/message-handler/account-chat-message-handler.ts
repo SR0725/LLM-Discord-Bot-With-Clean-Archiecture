@@ -101,7 +101,16 @@ const AccountChatMessageHandlerConstructor: InterfaceMessageHandlerConstructor<
 
       // 停止打字
       stopTyping();
-      await message.channel.send(response);
+
+      if (response.length > 1000) {
+        // 分段回應
+        const responseParts = response.match(/[\s\S]{1,1000}/g) ?? [];
+        for (const responsePart of responseParts) {
+          await message.channel.send(responsePart);
+        }
+      } else {
+        await message.channel.send(response);
+      }
     } catch (error) {
       console.error(error);
       await message.channel.send(
