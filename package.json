@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc --build tsconfig.json",
-    "start": "dotenv -e .env node dist/index.js",
-    "dev": "dotenv -e .env nodemon",
+    "dev": "dotenv -e .env -- tsup src/index.ts --format cjs --watch --onSuccess \"node dist/index.js\"",
+    "build": "dotenv -e .env -- tsup src/index.ts --format cjs",
+    "start": "dotenv -e .env -- node dist/index.js",
     "test": "jest",
     "type": "tsc --noEmit",
     "lint": "eslint --ext .ts src",
@@ -27,6 +27,7 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "tslib": "^2.6.2",
+    "tsup": "^8.0.2",
     "typescript": "^5.3.3"
   },
   "dependencies": {

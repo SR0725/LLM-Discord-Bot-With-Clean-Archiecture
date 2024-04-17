@@ -1,36 +1,15 @@
 import { type InterfaceMessageHandlerConstructor } from "@/adapter/in/discord/message-handler/interface-message-handler";
 import { type AccountChatUseCase } from "@/application/port/in/account-chat-use-case";
-import fs from "fs";
-import http from "https";
 import uuid from "@/common/uuid";
 import discordChatTypeHandler from "./discord-chat-typing-handler";
-
-async function downloadFileFromUrl(
-  url: string,
-  path: string
-): Promise<boolean> {
-  return new Promise((resolve, reject) => {
-    const file = fs.createWriteStream(path);
-    http.get(url, (response) => {
-      response.pipe(file);
-
-      file.on("finish", () => {
-        file.close();
-        resolve(true);
-      });
-
-      file.on("error", (error) => {
-        fs.unlink(path, () => {});
-        reject(error);
-      });
-    });
-  });
-}
+import downloadFileFromUrl from "@/common/download-file-from-url";
 
 const AccountChatMessageHandlerConstructor: InterfaceMessageHandlerConstructor<
   AccountChatUseCase
 > = (chat) => ({
   handle: async (message) => {
+    // TODO: 目前是直接判斷是否有提及 bot，才觸發相關功能
+    // 不過感覺程式設計上很通靈，待改進
     if (!message.content.startsWith("<@1211656440331112498>")) {
       return;
     }
