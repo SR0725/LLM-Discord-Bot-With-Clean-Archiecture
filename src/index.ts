@@ -11,57 +11,57 @@ import AccountInfoUseCaseConstructor from "@/application/domain/service/account-
 import ChatAdapter from "@/adapter/out/llm/chat-adapter";
 
 import SetupDiscordHandlers from "@/adapter/in/discord/setup-discord-handlers";
+import createMongoClientCollection from "./adapter/out/persistence/mongo-db";
 
-// 初始化語言模型
-const chatWithLLM = ChatAdapter;
+async function main() {
+  // 初始化語言模型
+  const chatWithLLM = ChatAdapter;
 
-// 初始化持久層
-const loadAccount: LoadAccountPort = AccountPersistenceLoadAdapter;
-const saveAccount: SaveAccountPort = AccountPersistenceSaveAdapter;
+  // 初始化持久層
+  const mongoCollections = await createMongoClientCollection();
+  const loadAccount: LoadAccountPort =
+    AccountPersistenceLoadAdapter(mongoCollections);
+  const saveAccount: SaveAccountPort =
+    AccountPersistenceSaveAdapter(mongoCollections);
+  // 初始化服務
+  const accountSwitchModelUseCase: AccountSwitchModelUseCase =
+    AccountSwitchModelServiceConstructor(loadAccount, saveAccount);
+  const accountSetPromptUseCase = AccountSetPromptServiceConstructor(
+    loadAccount,
+    saveAccount
+  );
+  const accountNewChatThreadUseCase = AccountNewChatThreadServiceConstructor(
+    loadAccount,
+    saveAccount
+  );
+  const accountChatUseCase = AccountChatServiceConstructor(
+    loadAccount,
+    saveAccount,
+    chatWithLLM
+  );
+  const accountInfoUseCase = AccountInfoUseCaseConstructor(loadAccount);
 
-// 初始化服務
-const accountSwitchModelUseCase: AccountSwitchModelUseCase =
-  AccountSwitchModelServiceConstructor(loadAccount, saveAccount);
-const accountSetPromptUseCase = AccountSetPromptServiceConstructor(
-  loadAccount,
-  saveAccount
-);
-const accountNewChatThreadUseCase = AccountNewChatThreadServiceConstructor(
-  loadAccount,
-  saveAccount
-);
-const accountChatUseCase = AccountChatServiceConstructor(
-  loadAccount,
-  saveAccount,
-  chatWithLLM
-);
-const accountInfoUseCase = AccountInfoUseCaseConstructor(
-  loadAccount
-);
+  // 初始化 Discord 指令處理器
+  const discordBotToken = process.env.DISCORD_BOT_TOKEN ?? "";
+  if (!discordBotToken) {
+    throw new Error("Discord bot token is required!");
+  }
+  const discordBotClientId = process.env.DISCORD_BOT_CLIENT_ID ?? "";
+  if (!discordBotClientId) {
+    throw new Error("Discord bot client id is required!");
+  }
+  const discordGuildId = process.env.DISCORD_GUILD_ID ?? "";
+  if (!discordGuildId) {
+    throw new Error("Discord guild id is required!");
+  }
 
-// 初始化 Discord 指令處理器
-const discordBotToken = process.env.DISCORD_BOT_TOKEN ?? "";
-if (!discordBotToken) {
-  throw new Error("Discord bot token is required!");
-}
-const discordBotClientId = process.env.DISCORD_BOT_CLIENT_ID ?? "";
-if (!discordBotClientId) {
-  throw new Error("Discord bot client id is required!");
-}
-const discordGuildId = process.env.DISCORD_GUILD_ID ?? "";
-if (!discordGuildId) {
-  throw new Error("Discord guild id is required!");
-}
-
-SetupDiscordHandlers(
-  discordBotToken,
-  discordBotClientId,
-  discordGuildId,
-  {
+  SetupDiscordHandlers(discordBotToken, discordBotClientId, discordGuildId, {
     accountSwitchModelUseCase,
     accountSetPromptUseCase,
     accountNewChatThreadUseCase,
     accountChatUseCase,
-    accountInfoUseCase
-  }
-);
+    accountInfoUseCase,
+  });
+}
+
+main();

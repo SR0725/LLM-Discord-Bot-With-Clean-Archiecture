@@ -1,17 +1,21 @@
 import type { Account } from "@/application/domain/model/account";
 import type { SaveAccountPort } from "@/application/port/out/save-account-port";
-import fs from "fs";
+import type { MongoCollections } from "./mongo-db";
 
-const AccountPersistenceSaveAdapter: SaveAccountPort = async (
-  account: Account
-) => {
-  const dataPath = `./data/account/${account.accountId}.json`;
-  // 檢查資料夾是否存在
-  if (!fs.existsSync("./data/account")) {
-    fs.mkdirSync("./data/account", { recursive: true });
-  }
-  // 寫入檔案
-  fs.writeFileSync(dataPath, JSON.stringify(account, null, 2), "utf8");
-};
+const AccountPersistenceSaveAdapter =
+  ({ accountCollection }: MongoCollections): SaveAccountPort =>
+  async (account: Account) => {
+    await accountCollection.updateOne(
+      {
+        id: account.accountId,
+      },
+      {
+        $set: account,
+      },
+      {
+        upsert: true,
+      }
+    );
+  };
 
 export default AccountPersistenceSaveAdapter;

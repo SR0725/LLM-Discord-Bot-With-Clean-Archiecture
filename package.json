@@ -35,6 +35,7 @@
     "@google/generative-ai": "^0.2.1",
     "discord.js": "^14.14.1",
     "dotenv-cli": "^7.3.0",
+    "mongodb": "^6.5.0",
     "openai": "^4.28.4",
     "zod": "^3.22.4"
   }
